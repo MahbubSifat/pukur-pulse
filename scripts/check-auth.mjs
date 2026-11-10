@@ -25,7 +25,8 @@ e.DB_PASSWORD === undefined ? bad("DB_PASSWORD is missing", "Add DB_PASSWORD=...
 console.log("\n2) MySQL connection (as the app does it)");
 let conn;
 try {
-  conn = await mysql.createConnection({ host: e.DB_HOST, port: Number(e.DB_PORT || 3306), user: e.DB_USER, password: e.DB_PASSWORD, database: e.DB_NAME });
+   conn = await mysql.createConnection({ host: e.DB_HOST, port: Number(e.DB_PORT || 3306), user: e.DB_USER, password: e.DB_PASSWORD, database: e.DB_NAME,
+    ssl: e.DB_CA ? { ca: e.DB_CA.replace(/\\n/g, "\n") } : e.DB_SSL === "true" ? { rejectUnauthorized: true } : undefined });
   ok(`connected to ${e.DB_NAME} as ${e.DB_USER}`);
 } catch (err) {
   const code = err.code || err.errors?.[0]?.code || "";

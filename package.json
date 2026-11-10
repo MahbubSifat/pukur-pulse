@@ -8,7 +8,8 @@
     "start": "next start",
     "db:setup": "node database/setup.mjs",
     "lab:verify": "node scripts/lab-verify.mjs",
-    "check:auth": "node scripts/check-auth.mjs"
+    "check:auth": "node scripts/check-auth.mjs",
+    "db:load-remote": "node scripts/db-load-remote.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

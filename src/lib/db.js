@@ -3,6 +3,13 @@ import mysql from "mysql2/promise";
 // Dev hot-reload would create a new pool each time. Keep one pool on globalThis.
 const g = globalThis;
 
+// Cloud databases (Aiven, TiDB...) need an encrypted (SSL) connection. Local XAMPP does not.
+function sslConfig() {
+  if (process.env.DB_CA) return { ca: process.env.DB_CA.replace(/\\n/g, "\n") }; // CA certificate text
+  if (process.env.DB_SSL === "true") return { rejectUnauthorized: true };
+  return undefined;
+}
+
 function createPool() {
   return mysql.createPool({
     host: process.env.DB_HOST,
@@ -11,7 +18,8 @@ function createPool() {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     waitForConnections: true,
-    connectionLimit: 10,
+    connectionLimit: Number(process.env.DB_POOL_SIZE || 5), // serverless: keep it small
+    ssl: sslConfig(),
     decimalNumbers: true, // DECIMAL -> number
     dateStrings: true,    // DATE/DATETIME -> plain string (no timezone surprises)
   });
