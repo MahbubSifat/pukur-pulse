@@ -1,55 +1,42 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
-import { safeNext } from "@/lib/utils/safe-redirect";
+import PasswordToggle from "@/components/forms/PasswordToggle";
+import { validateLogin } from "@/lib/validations";
+import { send } from "@/lib/api-client";
 
-// শুধু development-এ দেখায়: teacher-কে দ্রুত দেখানোর জন্য demo account বাটন
-const DEMO_ACCOUNTS = [
-  { label: "Farmer demo", username: "karim", password: "Farmer@123" },
-  { label: "Officer demo", username: "officer1", password: "Officer@123" },
-];
-
-export default function LoginForm({ next }) {
+export default function LoginForm() {
   const router = useRouter();
-  const [values, setValues] = useState({ username: "", password: "" });
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [values, setValues] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onChange = (e) => {
     setValues((v) => ({ ...v, [e.target.name]: e.target.value }));
-    setFieldErrors((errs) => ({ ...errs, [e.target.name]: undefined }));
+    setErrors((x) => ({ ...x, [e.target.name]: undefined }));
   };
 
   async function onSubmit(e) {
     e.preventDefault();
-    setLoading(true);
     setFormError("");
-    setFieldErrors({});
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        if (json.error?.details) setFieldErrors(json.error.details);
-        else setFormError(json.error?.message || "Could not sign in. Please try again.");
-        return;
-      }
-      router.replace(safeNext(next, json.data.redirectTo));
-      router.refresh();
-    } catch {
-      setFormError("Could not reach the server. Check your connection and try again.");
-    } finally {
-      setLoading(false);
+    const check = validateLogin(values);
+    if (Object.keys(check.errors).length) return setErrors(check.errors);
+
+    setLoading(true);
+    const res = await send("POST", "/api/auth/login", values);
+    setLoading(false);
+    if (!res.ok) {
+      if (res.details) setErrors(res.details);
+      else setFormError(res.error);
+      return;
     }
+    router.replace(res.data.redirectTo);
+    router.refresh();
   }
 
   return (
@@ -60,66 +47,12 @@ export default function LoginForm({ next }) {
           <span>{formError}</span>
         </div>
       )}
-
-      <TextField
-        id="username"
-        name="username"
-        label="Username"
-        placeholder="e.g. karim"
-        autoComplete="username"
-        autoCapitalize="none"
-        spellCheck={false}
-        required
-        value={values.username}
-        onChange={onChange}
-        error={fieldErrors.username}
-      />
-
-      <TextField
-        id="password"
-        name="password"
-        label="Password"
-        type={showPassword ? "text" : "password"}
-        placeholder="Your password"
-        autoComplete="current-password"
-        required
-        value={values.password}
-        onChange={onChange}
-        error={fieldErrors.password}
-        rightSlot={
-          <button
-            type="button"
-            onClick={() => setShowPassword((s) => !s)}
-            aria-label={showPassword ? "Hide password" : "Show password"}
-            className="rounded-md p-2 text-muted transition-colors hover:bg-canvas hover:text-ink"
-          >
-            {showPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
-          </button>
-        }
-      />
-
-      <Button type="submit" loading={loading} className="w-full">
-        {loading ? "Signing in…" : "Sign in"}
-      </Button>
-
-      {process.env.NODE_ENV !== "production" && (
-        <div className="border-t border-line pt-5">
-          <p className="mb-2.5 text-xs font-medium uppercase tracking-wide text-muted">Development demo accounts</p>
-          <div className="flex flex-wrap gap-2">
-            {DEMO_ACCOUNTS.map((a) => (
-              <Button
-                key={a.username}
-                type="button"
-                variant="secondary"
-                className="!px-3 !py-1.5 text-xs"
-                onClick={() => setValues({ username: a.username, password: a.password })}
-              >
-                {a.label}
-              </Button>
-            ))}
-          </div>
-        </div>
-      )}
+      <TextField id="email" name="email" type="email" label="Email" placeholder="you@example.com" autoComplete="email"
+        required value={values.email} onChange={onChange} error={errors.email} />
+      <TextField id="password" name="password" type={show ? "text" : "password"} label="Password" autoComplete="current-password"
+        required value={values.password} onChange={onChange} error={errors.password}
+        rightSlot={<PasswordToggle shown={show} onToggle={() => setShow((s) => !s)} />} />
+      <Button type="submit" loading={loading} className="w-full">{loading ? "Signing in…" : "Sign in"}</Button>
     </form>
   );
 }

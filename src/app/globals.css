@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
-/* ===== Pukur Pulse design tokens (Tailwind v4: CSS-first config) ===== */
+/* Pukur Pulse design tokens (Tailwind v4 CSS-first) */
 @theme {
-  /* Brand */
   --color-brand-50: #f0fdf4;
-  --color-brand-100: #dcfce7;
+  --color-brand-100: #d1fae5;   /* Mint */
+  --color-brand-500: #10b981;   /* Emerald */
   --color-brand-700: #15803d;
-  --color-brand-900: #14532d;
-  --color-aqua-600: #0ea5a4; /* শুধু icon/chart-এর জন্য (text হিসেবে contrast কম) */
-  --color-aqua-700: #0f766e; /* aqua text/link */
+  --color-brand-900: #14532d;   /* Deep Forest */
+  --color-aqua-500: #06b6d4;    /* Aqua */
+  --color-aqua-700: #0f766e;
+  --color-sky-soft: #e0f2fe;    /* Soft Sky */
+  --color-cream: #fffbeb;       /* Warm Cream */
 
-  /* Neutrals */
   --color-ink: #0f172a;
   --color-muted: #64748b;
   --color-line: #e2e8f0;
   --color-canvas: #f8fafc;
   --color-surface: #ffffff;
 
-  /* Status (badge-এ bg + text জোড়া ব্যবহার করবে) */
   --color-warn: #f59e0b;
   --color-warn-bg: #fef3c7;
   --color-warn-text: #92400e;
@@ -30,19 +30,10 @@
   --font-sans: var(--font-inter), var(--font-bn), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* ===== Base ===== */
 @layer base {
-  :focus-visible {
-    outline: 2px solid var(--color-brand-700);
-    outline-offset: 2px;
-  }
+  :focus-visible { outline: 2px solid var(--color-brand-700); outline-offset: 2px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }

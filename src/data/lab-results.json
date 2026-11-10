@@ -1,0 +1,1103 @@
+{
+  "generatedAt": "2026-11-09T18:34:27.845Z",
+  "mysqlVersion": "10.4.32-MariaDB",
+  "results": {
+    "1": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "CREATE DATABASE IF NOT EXISTS pukur_pulse CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "2": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "CREATE TABLE lab_demo (id INT AUTO_INCREMENT PRIMARY KEY, note VARCHAR(50) NOT NULL)",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "3": {
+      "status": "verified",
+      "note": "OK, 1 row(s) affected",
+      "statements": [
+        {
+          "sql": "INSERT INTO ponds (user_id, pond_name, area_decimal, water_type, location) VALUES (1, 'Lab Pond', 12.50, 'freshwater', 'Lab Area')",
+          "kind": "ok",
+          "affectedRows": 1
+        },
+        {
+          "sql": "INSERT INTO feed_logs (batch_id, feed_date, feed_type, quantity_kg, cost) VALUES (5, '2026-11-05', 'Other', 10, 600)",
+          "kind": "ok",
+          "affectedRows": 1
+        },
+        {
+          "sql": "INSERT INTO lab_demo (note) VALUES ('first row')",
+          "kind": "ok",
+          "affectedRows": 1
+        }
+      ]
+    },
+    "4": {
+      "status": "verified",
+      "note": "6 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT pond_id, pond_name, area_decimal, status FROM ponds",
+          "kind": "rows",
+          "rowCount": 6,
+          "rows": [
+            {
+              "pond_id": 1,
+              "pond_name": "Big Pond",
+              "area_decimal": "40.00",
+              "status": "active"
+            },
+            {
+              "pond_id": 2,
+              "pond_name": "Small Pond",
+              "area_decimal": "15.50",
+              "status": "active"
+            },
+            {
+              "pond_id": 3,
+              "pond_name": "North Pond",
+              "area_decimal": "25.00",
+              "status": "active"
+            },
+            {
+              "pond_id": 4,
+              "pond_name": "South Pond",
+              "area_decimal": "30.00",
+              "status": "active"
+            },
+            {
+              "pond_id": 5,
+              "pond_name": "Spare Pond",
+              "area_decimal": "8.00",
+              "status": "maintenance"
+            }
+          ]
+        }
+      ]
+    },
+    "5": {
+      "status": "verified",
+      "note": "OK, 1 row(s) affected",
+      "statements": [
+        {
+          "sql": "UPDATE ponds SET area_decimal = 15.00, location = 'Lab Area (updated)' WHERE pond_name = 'Lab Pond'",
+          "kind": "ok",
+          "affectedRows": 1
+        }
+      ]
+    },
+    "6": {
+      "status": "verified",
+      "note": "OK, 1 row(s) affected",
+      "statements": [
+        {
+          "sql": "DELETE FROM feed_logs WHERE batch_id = 5 AND feed_type = 'Other' AND feed_date = '2026-11-05'",
+          "kind": "ok",
+          "affectedRows": 1
+        }
+      ]
+    },
+    "7": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "ALTER TABLE lab_demo ADD COLUMN created_on DATE NULL",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "8": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "DROP TABLE lab_demo",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "9": {
+      "status": "verified",
+      "note": "5 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT pond_name, status FROM ponds WHERE status = 'active' AND user_id = 1",
+          "kind": "rows",
+          "rowCount": 5,
+          "rows": [
+            {
+              "pond_name": "Big Pond",
+              "status": "active"
+            },
+            {
+              "pond_name": "Small Pond",
+              "status": "active"
+            },
+            {
+              "pond_name": "North Pond",
+              "status": "active"
+            },
+            {
+              "pond_name": "South Pond",
+              "status": "active"
+            },
+            {
+              "pond_name": "Lab Pond",
+              "status": "active"
+            }
+          ]
+        }
+      ]
+    },
+    "10": {
+      "status": "verified",
+      "note": "6 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT DISTINCT sp.species_name FROM stocking_batches b JOIN fish_species sp ON sp.species_id = b.species_id",
+          "kind": "rows",
+          "rowCount": 6,
+          "rows": [
+            {
+              "species_name": "Catla"
+            },
+            {
+              "species_name": "Mrigal"
+            },
+            {
+              "species_name": "Pangas"
+            },
+            {
+              "species_name": "Rui"
+            },
+            {
+              "species_name": "Silver Carp"
+            }
+          ]
+        }
+      ]
+    },
+    "11": {
+      "status": "verified",
+      "note": "14 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT reading_id, pond_id, recorded_at, ph FROM water_readings ORDER BY recorded_at DESC",
+          "kind": "rows",
+          "rowCount": 14,
+          "rows": [
+            {
+              "reading_id": 14,
+              "pond_id": 5,
+              "recorded_at": "2026-11-03 18:00:00",
+              "ph": null
+            },
+            {
+              "reading_id": 8,
+              "pond_id": 2,
+              "recorded_at": "2026-11-03 07:00:00",
+              "ph": "7.00"
+            },
+            {
+              "reading_id": 12,
+              "pond_id": 3,
+              "recorded_at": "2026-11-02 06:30:00",
+              "ph": "7.70"
+            },
+            {
+              "reading_id": 5,
+              "pond_id": 1,
+              "recorded_at": "2026-11-02 06:00:00",
+              "ph": "7.50"
+            },
+            {
+              "reading_id": 4,
+              "pond_id": 1,
+              "recorded_at": "2026-10-30 06:00:00",
+              "ph": "7.60"
+            }
+          ]
+        }
+      ]
+    },
+    "12": {
+      "status": "verified",
+      "note": "5 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT reading_id, pond_id, recorded_at, ph FROM water_readings ORDER BY recorded_at DESC LIMIT 5",
+          "kind": "rows",
+          "rowCount": 5,
+          "rows": [
+            {
+              "reading_id": 14,
+              "pond_id": 5,
+              "recorded_at": "2026-11-03 18:00:00",
+              "ph": null
+            },
+            {
+              "reading_id": 8,
+              "pond_id": 2,
+              "recorded_at": "2026-11-03 07:00:00",
+              "ph": "7.00"
+            },
+            {
+              "reading_id": 12,
+              "pond_id": 3,
+              "recorded_at": "2026-11-02 06:30:00",
+              "ph": "7.70"
+            },
+            {
+              "reading_id": 5,
+              "pond_id": 1,
+              "recorded_at": "2026-11-02 06:00:00",
+              "ph": "7.50"
+            },
+            {
+              "reading_id": 4,
+              "pond_id": 1,
+              "recorded_at": "2026-10-30 06:00:00",
+              "ph": "7.60"
+            }
+          ]
+        }
+      ]
+    },
+    "13": {
+      "status": "verified",
+      "note": "3 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT pond_name FROM ponds WHERE pond_name LIKE 'S%'",
+          "kind": "rows",
+          "rowCount": 3,
+          "rows": [
+            {
+              "pond_name": "Small Pond"
+            },
+            {
+              "pond_name": "South Pond"
+            },
+            {
+              "pond_name": "Spare Pond"
+            }
+          ]
+        }
+      ]
+    },
+    "14": {
+      "status": "verified",
+      "note": "4 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT batch_id, species_id, initial_quantity FROM stocking_batches WHERE species_id IN (1, 2)",
+          "kind": "rows",
+          "rowCount": 4,
+          "rows": [
+            {
+              "batch_id": 1,
+              "species_id": 2,
+              "initial_quantity": 3000
+            },
+            {
+              "batch_id": 3,
+              "species_id": 1,
+              "initial_quantity": 5000
+            },
+            {
+              "batch_id": 7,
+              "species_id": 1,
+              "initial_quantity": 4000
+            },
+            {
+              "batch_id": 8,
+              "species_id": 2,
+              "initial_quantity": 2500
+            }
+          ]
+        }
+      ]
+    },
+    "15": {
+      "status": "verified",
+      "note": "7 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT feed_id, feed_date, cost FROM feed_logs WHERE feed_date BETWEEN '2026-09-01' AND '2026-10-31'",
+          "kind": "rows",
+          "rowCount": 7,
+          "rows": [
+            {
+              "feed_id": 11,
+              "feed_date": "2026-10-15",
+              "cost": "11600.00"
+            },
+            {
+              "feed_id": 14,
+              "feed_date": "2026-09-25",
+              "cost": "26100.00"
+            },
+            {
+              "feed_id": 15,
+              "feed_date": "2026-10-20",
+              "cost": "34800.00"
+            },
+            {
+              "feed_id": 16,
+              "feed_date": "2026-09-05",
+              "cost": "3500.00"
+            },
+            {
+              "feed_id": 17,
+              "feed_date": "2026-10-28",
+              "cost": "5580.00"
+            }
+          ]
+        }
+      ]
+    },
+    "16": {
+      "status": "verified",
+      "note": "2 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT reading_id, pond_id, recorded_at FROM water_readings WHERE dissolved_oxygen IS NULL",
+          "kind": "rows",
+          "rowCount": 2,
+          "rows": [
+            {
+              "reading_id": 3,
+              "pond_id": 1,
+              "recorded_at": "2026-10-26 06:00:00"
+            },
+            {
+              "reading_id": 14,
+              "pond_id": 5,
+              "recorded_at": "2026-11-03 18:00:00"
+            }
+          ]
+        }
+      ]
+    },
+    "17": {
+      "status": "verified",
+      "note": "12 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT reading_id, pond_id, dissolved_oxygen FROM water_readings WHERE dissolved_oxygen IS NOT NULL",
+          "kind": "rows",
+          "rowCount": 12,
+          "rows": [
+            {
+              "reading_id": 1,
+              "pond_id": 1,
+              "dissolved_oxygen": "5.60"
+            },
+            {
+              "reading_id": 2,
+              "pond_id": 1,
+              "dissolved_oxygen": "5.80"
+            },
+            {
+              "reading_id": 4,
+              "pond_id": 1,
+              "dissolved_oxygen": "3.10"
+            },
+            {
+              "reading_id": 5,
+              "pond_id": 1,
+              "dissolved_oxygen": "5.20"
+            },
+            {
+              "reading_id": 6,
+              "pond_id": 2,
+              "dissolved_oxygen": "5.50"
+            }
+          ]
+        }
+      ]
+    },
+    "18": {
+      "status": "verified",
+      "note": "8 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT p.pond_name, b.batch_id, b.stocking_date FROM ponds p INNER JOIN stocking_batches b ON b.pond_id = p.pond_id",
+          "kind": "rows",
+          "rowCount": 8,
+          "rows": [
+            {
+              "pond_name": "Big Pond",
+              "batch_id": 1,
+              "stocking_date": "2026-04-10"
+            },
+            {
+              "pond_name": "Big Pond",
+              "batch_id": 2,
+              "stocking_date": "2026-04-10"
+            },
+            {
+              "pond_name": "Small Pond",
+              "batch_id": 3,
+              "stocking_date": "2026-06-15"
+            },
+            {
+              "pond_name": "North Pond",
+              "batch_id": 4,
+              "stocking_date": "2026-05-01"
+            },
+            {
+              "pond_name": "North Pond",
+              "batch_id": 5,
+              "stocking_date": "2026-09-01"
+            }
+          ]
+        }
+      ]
+    },
+    "19": {
+      "status": "verified",
+      "note": "2 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT p.pond_name FROM ponds p LEFT JOIN stocking_batches b ON b.pond_id = p.pond_id WHERE b.batch_id IS NULL",
+          "kind": "rows",
+          "rowCount": 2,
+          "rows": [
+            {
+              "pond_name": "Lab Pond"
+            },
+            {
+              "pond_name": "Spare Pond"
+            }
+          ]
+        }
+      ]
+    },
+    "20": {
+      "status": "verified",
+      "note": "8 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT p.pond_name, sp.species_name, b.initial_quantity FROM stocking_batches b JOIN ponds p ON p.pond_id = b.pond_id JOIN fish_species sp ON sp.species_id = b.species_id",
+          "kind": "rows",
+          "rowCount": 8,
+          "rows": [
+            {
+              "pond_name": "Big Pond",
+              "species_name": "Rui",
+              "initial_quantity": 3000
+            },
+            {
+              "pond_name": "Big Pond",
+              "species_name": "Catla",
+              "initial_quantity": 1500
+            },
+            {
+              "pond_name": "Small Pond",
+              "species_name": "Tilapia",
+              "initial_quantity": 5000
+            },
+            {
+              "pond_name": "North Pond",
+              "species_name": "Pangas",
+              "initial_quantity": 4000
+            },
+            {
+              "pond_name": "North Pond",
+              "species_name": "Silver Carp",
+              "initial_quantity": 2000
+            }
+          ]
+        }
+      ]
+    },
+    "21": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT COUNT(*) AS total_ponds FROM ponds WHERE user_id = 1",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "total_ponds": 6
+            }
+          ]
+        }
+      ]
+    },
+    "22": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT SUM(cost) AS total_feed_cost FROM feed_logs",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "total_feed_cost": "320420.00"
+            }
+          ]
+        }
+      ]
+    },
+    "23": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT ROUND(AVG(ph), 2) AS average_ph FROM water_readings",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "average_ph": "7.47"
+            }
+          ]
+        }
+      ]
+    },
+    "24": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT MIN(dissolved_oxygen) AS min_do FROM water_readings",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "min_do": "2.80"
+            }
+          ]
+        }
+      ]
+    },
+    "25": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT MAX(temperature) AS max_temp FROM water_readings",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "max_temp": "33.50"
+            }
+          ]
+        }
+      ]
+    },
+    "26": {
+      "status": "verified",
+      "note": "7 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT batch_id, SUM(amount) AS other_expense FROM expenses GROUP BY batch_id",
+          "kind": "rows",
+          "rowCount": 7,
+          "rows": [
+            {
+              "batch_id": 1,
+              "other_expense": "9500.00"
+            },
+            {
+              "batch_id": 2,
+              "other_expense": "1800.00"
+            },
+            {
+              "batch_id": 3,
+              "other_expense": "4400.00"
+            },
+            {
+              "batch_id": 4,
+              "other_expense": "15800.00"
+            },
+            {
+              "batch_id": 5,
+              "other_expense": "1200.00"
+            }
+          ]
+        }
+      ]
+    },
+    "27": {
+      "status": "verified",
+      "note": "2 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT batch_id, SUM(cost) AS feed_cost FROM feed_logs GROUP BY batch_id HAVING SUM(cost) > 50000",
+          "kind": "rows",
+          "rowCount": 2,
+          "rows": [
+            {
+              "batch_id": 1,
+              "feed_cost": "80100.00"
+            },
+            {
+              "batch_id": 4,
+              "feed_cost": "102400.00"
+            }
+          ]
+        }
+      ]
+    },
+    "28": {
+      "status": "verified",
+      "note": "8 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT feed_id, batch_id, cost FROM feed_logs WHERE cost > (SELECT AVG(cost) FROM feed_logs)",
+          "kind": "rows",
+          "rowCount": 8,
+          "rows": [
+            {
+              "feed_id": 3,
+              "batch_id": 1,
+              "cost": "18600.00"
+            },
+            {
+              "feed_id": 4,
+              "batch_id": 1,
+              "cost": "21700.00"
+            },
+            {
+              "feed_id": 5,
+              "batch_id": 1,
+              "cost": "17400.00"
+            },
+            {
+              "feed_id": 10,
+              "batch_id": 3,
+              "cost": "24800.00"
+            },
+            {
+              "feed_id": 13,
+              "batch_id": 4,
+              "cost": "31000.00"
+            }
+          ]
+        }
+      ]
+    },
+    "29": {
+      "status": "verified",
+      "note": "4 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT p.pond_name FROM ponds p WHERE EXISTS (SELECT 1 FROM water_readings w WHERE w.pond_id = p.pond_id)",
+          "kind": "rows",
+          "rowCount": 4,
+          "rows": [
+            {
+              "pond_name": "Big Pond"
+            },
+            {
+              "pond_name": "North Pond"
+            },
+            {
+              "pond_name": "Small Pond"
+            },
+            {
+              "pond_name": "Spare Pond"
+            }
+          ]
+        }
+      ]
+    },
+    "30": {
+      "status": "verified",
+      "note": "2 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT p.pond_name FROM ponds p WHERE NOT EXISTS (SELECT 1 FROM water_readings w WHERE w.pond_id = p.pond_id)",
+          "kind": "rows",
+          "rowCount": 2,
+          "rows": [
+            {
+              "pond_name": "Lab Pond"
+            },
+            {
+              "pond_name": "South Pond"
+            }
+          ]
+        }
+      ]
+    },
+    "31": {
+      "status": "verified",
+      "note": "8 row(s) returned",
+      "statements": [
+        {
+          "sql": "SELECT 'Water reading' AS event_type, recorded_at AS event_time, pond_id AS ref_id FROM water_readings UNION SELECT 'Harvest', CAST(harvest_date AS DATETIME), batch_id FROM harvests ORDER BY event_time DESC LIMIT 8",
+          "kind": "rows",
+          "rowCount": 8,
+          "rows": [
+            {
+              "event_type": "Water reading",
+              "event_time": "2026-11-03 18:00:00",
+              "ref_id": 5
+            },
+            {
+              "event_type": "Water reading",
+              "event_time": "2026-11-03 07:00:00",
+              "ref_id": 2
+            },
+            {
+              "event_type": "Water reading",
+              "event_time": "2026-11-02 06:30:00",
+              "ref_id": 3
+            },
+            {
+              "event_type": "Water reading",
+              "event_time": "2026-11-02 06:00:00",
+              "ref_id": 1
+            },
+            {
+              "event_type": "Water reading",
+              "event_time": "2026-10-30 06:00:00",
+              "ref_id": 1
+            }
+          ]
+        }
+      ]
+    },
+    "32": {
+      "status": "verified",
+      "note": "rejected: ERROR 1062",
+      "statements": [
+        {
+          "sql": "INSERT INTO fish_species (species_id, species_name) VALUES (1, 'Duplicate Id')",
+          "kind": "error",
+          "errno": 1062,
+          "code": "ER_DUP_ENTRY",
+          "message": "Duplicate entry '1' for key 'PRIMARY'"
+        }
+      ]
+    },
+    "33": {
+      "status": "verified",
+      "note": "rejected: ERROR 1452",
+      "statements": [
+        {
+          "sql": "INSERT INTO ponds (user_id, pond_name, area_decimal) VALUES (9999, 'Orphan Pond', 10)",
+          "kind": "error",
+          "errno": 1452,
+          "code": "ER_NO_REFERENCED_ROW_2",
+          "message": "Cannot add or update a child row: a foreign key constraint fails (`pukur_lab`.`ponds`, CONSTRAINT `fk_ponds_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`))"
+        }
+      ]
+    },
+    "34": {
+      "status": "verified",
+      "note": "rejected: ERROR 1062",
+      "statements": [
+        {
+          "sql": "INSERT INTO users (full_name, email, phone, password_hash) VALUES ('Dup', 'demo@pukurpulse.test', '01999999999', 'x')",
+          "kind": "error",
+          "errno": 1062,
+          "code": "ER_DUP_ENTRY",
+          "message": "Duplicate entry 'demo@pukurpulse.test' for key 'uq_users_email'"
+        }
+      ]
+    },
+    "35": {
+      "status": "verified",
+      "note": "rejected: ERROR 4025; rejected: ERROR 4025",
+      "statements": [
+        {
+          "sql": "INSERT INTO ponds (user_id, pond_name, area_decimal) VALUES (1, 'Bad Pond', -5)",
+          "kind": "error",
+          "errno": 4025,
+          "code": "ER_INNODB_AUTOEXTEND_SIZE_OUT_OF_RANGE",
+          "message": "CONSTRAINT `chk_ponds_area` failed for `pukur_lab`.`ponds`"
+        },
+        {
+          "sql": "UPDATE sales SET quantity_kg = -1 WHERE sale_id = 1",
+          "kind": "error",
+          "errno": 4025,
+          "code": "ER_INNODB_AUTOEXTEND_SIZE_OUT_OF_RANGE",
+          "message": "CONSTRAINT `chk_sales_quantity` failed for `pukur_lab`.`sales`"
+        }
+      ]
+    },
+    "36": {
+      "status": "verified",
+      "note": "rejected: ERROR 1451",
+      "statements": [
+        {
+          "sql": "DELETE FROM ponds WHERE pond_id = 1",
+          "kind": "error",
+          "errno": 1451,
+          "code": "ER_ROW_IS_REFERENCED_2",
+          "message": "Cannot delete or update a parent row: a foreign key constraint fails (`pukur_lab`.`stocking_batches`, CONSTRAINT `fk_batches_pond` FOREIGN KEY (`pond_id`) REFERENCES `ponds` (`pond_id`))"
+        }
+      ]
+    },
+    "37": {
+      "status": "verified",
+      "note": "6 row(s) returned",
+      "statements": [
+        {
+          "sql": "CREATE OR REPLACE VIEW v_pond_feed_expense_summary AS SELECT p.pond_id, p.user_id, p.pond_name, COUNT(fl.feed_id) AS feed_entries, COALESCE(SUM(fl.quantity_kg), 0) AS total_feed_kg, COALESCE(SUM(fl.cost), 0) AS total_feed_cost FROM ponds p LEFT JOIN stocking_batches b ON b.pond_id = p.pond_id LEFT JOIN feed_logs fl ON fl.batch_id = b.batch_id GROUP BY p.pond_id, p.user_id, p.pond_name",
+          "kind": "ok",
+          "affectedRows": 0
+        },
+        {
+          "sql": "SELECT pond_name, feed_entries, total_feed_cost FROM v_pond_feed_expense_summary WHERE user_id = 1",
+          "kind": "rows",
+          "rowCount": 6,
+          "rows": [
+            {
+              "pond_name": "Big Pond",
+              "feed_entries": 8,
+              "total_feed_cost": "107140.00"
+            },
+            {
+              "pond_name": "Small Pond",
+              "feed_entries": 5,
+              "total_feed_cost": "67700.00"
+            },
+            {
+              "pond_name": "North Pond",
+              "feed_entries": 6,
+              "total_feed_cost": "111480.00"
+            },
+            {
+              "pond_name": "South Pond",
+              "feed_entries": 3,
+              "total_feed_cost": "34100.00"
+            },
+            {
+              "pond_name": "Spare Pond",
+              "feed_entries": 0,
+              "total_feed_cost": "0.00"
+            }
+          ]
+        }
+      ]
+    },
+    "38": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "CREATE USER 'pukur_demo'@'localhost' IDENTIFIED BY 'DemoUser_2026'",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "39": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "GRANT SELECT ON pukur_lab.ponds TO 'pukur_demo'@'localhost'",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "40": {
+      "status": "verified",
+      "note": "2 row(s) returned",
+      "statements": [
+        {
+          "sql": "SHOW GRANTS FOR 'pukur_demo'@'localhost'",
+          "kind": "rows",
+          "rowCount": 2,
+          "rows": [
+            {
+              "Grants for pukur_demo@localhost": "GRANT USAGE ON *.* TO `pukur_demo`@`localhost` IDENTIFIED BY PASSWORD '*FE8766008CE9B68BC3DCA93DF168926F635F11CB'"
+            },
+            {
+              "Grants for pukur_demo@localhost": "GRANT SELECT ON `pukur_lab`.`ponds` TO `pukur_demo`@`localhost`"
+            }
+          ]
+        }
+      ]
+    },
+    "41": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "REVOKE SELECT ON pukur_lab.ponds FROM 'pukur_demo'@'localhost'",
+          "kind": "ok",
+          "affectedRows": 0
+        },
+        {
+          "sql": "SHOW GRANTS FOR 'pukur_demo'@'localhost'",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "Grants for pukur_demo@localhost": "GRANT USAGE ON *.* TO `pukur_demo`@`localhost` IDENTIFIED BY PASSWORD '*FE8766008CE9B68BC3DCA93DF168926F635F11CB'"
+            }
+          ]
+        }
+      ]
+    },
+    "42": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "START TRANSACTION",
+          "kind": "ok",
+          "affectedRows": 0
+        },
+        {
+          "sql": "SELECT (SELECT COALESCE(SUM(quantity_kg), 0) FROM harvests WHERE batch_id = 3) - (SELECT COALESCE(SUM(quantity_kg), 0) FROM sales WHERE batch_id = 3) AS available_kg FROM stocking_batches WHERE batch_id = 3 FOR UPDATE",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "available_kg": "80.00"
+            }
+          ]
+        }
+      ]
+    },
+    "43": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "INSERT INTO sales (batch_id, buyer_name, sale_date, quantity_kg, price_per_kg, payment_status) VALUES (3, 'Lab Buyer', '2026-11-06', 50, 150, 'paid')",
+          "kind": "ok",
+          "affectedRows": 1
+        },
+        {
+          "sql": "COMMIT",
+          "kind": "ok",
+          "affectedRows": 0
+        },
+        {
+          "sql": "SELECT SUM(quantity_kg) AS total_sold_kg FROM sales WHERE batch_id = 3",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "total_sold_kg": "270.00"
+            }
+          ]
+        }
+      ]
+    },
+    "44": {
+      "status": "verified",
+      "note": "1 row(s) returned",
+      "statements": [
+        {
+          "sql": "START TRANSACTION",
+          "kind": "ok",
+          "affectedRows": 0
+        },
+        {
+          "sql": "INSERT INTO sales (batch_id, buyer_name, sale_date, quantity_kg, price_per_kg, payment_status) VALUES (3, 'Aborted Buyer', '2026-11-06', 30, 150, 'paid')",
+          "kind": "ok",
+          "affectedRows": 1
+        },
+        {
+          "sql": "SELECT COUNT(*) AS rows_inside_transaction FROM sales WHERE buyer_name = 'Aborted Buyer'",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "rows_inside_transaction": 1
+            }
+          ]
+        },
+        {
+          "sql": "ROLLBACK",
+          "kind": "ok",
+          "affectedRows": 0
+        },
+        {
+          "sql": "SELECT COUNT(*) AS rows_after_rollback FROM sales WHERE buyer_name = 'Aborted Buyer'",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "rows_after_rollback": 0
+            }
+          ]
+        }
+      ]
+    },
+    "45": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "CREATE INDEX idx_water_pond_recorded ON water_readings (pond_id, recorded_at)",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "46": {
+      "status": "verified",
+      "note": "OK, 0 row(s) affected",
+      "statements": [
+        {
+          "sql": "CREATE INDEX idx_feed_date_demo ON feed_logs (feed_date)",
+          "kind": "ok",
+          "affectedRows": 0
+        },
+        {
+          "sql": "DROP INDEX idx_feed_date_demo ON feed_logs",
+          "kind": "ok",
+          "affectedRows": 0
+        }
+      ]
+    },
+    "47": {
+      "status": "verified",
+      "note": "1 row(s) returned | after CREATE INDEX: type=range, key=idx_water_pond_recorded, rows=3 | before: type=ALL, key=NULL, rows=14",
+      "statements": [
+        {
+          "sql": "EXPLAIN SELECT reading_id, ph FROM water_readings WHERE pond_id = 1 AND recorded_at >= '2026-10-25 00:00:00' ORDER BY recorded_at",
+          "kind": "rows",
+          "rowCount": 1,
+          "rows": [
+            {
+              "id": 1,
+              "select_type": "SIMPLE",
+              "table": "water_readings",
+              "type": "range",
+              "possible_keys": "idx_water_pond_recorded",
+              "key": "idx_water_pond_recorded",
+              "key_len": "9",
+              "ref": null,
+              "rows": "3",
+              "Extra": "Using index condition"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
